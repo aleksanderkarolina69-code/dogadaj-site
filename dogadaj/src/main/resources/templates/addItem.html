@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/template :: head}"></head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container" th:replace="~{fragments/template :: navbar}"></div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="section-title mb-0">Dodaj nową pozycję</h4>
+                    <small class="text-muted" th:text="${list.title}"></small>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/services/view/{listId}/addItem(listId=${list.id})}"
+                          th:object="${newItem}"
+                          method="post">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Nazwa pozycji</label>
+                            <input type="text"
+                                   th:field="*{name}"
+                                   class="form-control form-control-lg"
+                                   required>
+                        </div>
+
+                        <div class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox"
+                                   th:field="*{completed}" id="completed">
+                            <label class="form-check-label fw-semibold" for="completed">
+                                Zakończone / wykonane
+                            </label>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-dog flex-grow-1">
+                                <i class="fas fa-plus"></i> Dodaj
+                            </button>
+                            <a th:href="@{/services/view/{id}(id=${list.id})}"
+                               class="btn btn-outline-secondary flex-grow-1">
+                                Anuluj
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<footer th:replace="~{fragments/template :: footer}">
+</footer>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+
+    <div th:fragment = "language">
+        <p>
+            <span th:text = "#{greeting}"></span>
+            <button type="button" th:text="#{lang.en}" onclick="window.location.href='/?lang=en#footer'"></button>
+            <button type="button" th:text="#{lang.pl}" onclick="window.location.href='/?lang=pl#footer'"></button>
+        </p>
+    </div>
+
+</body>
+</html>

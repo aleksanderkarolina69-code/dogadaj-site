@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/template :: head}"></head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container" th:replace="~{fragments/template :: navbar}">
+    </div>
+</nav>
+
+<!-- ✅ KLUCZOWE -->
+<main class="flex-grow-1">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h4 class="section-title mb-0">Edytuj pozycję</h4>
+                        <small class="text-muted" th:text="${list.title}"></small>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/services/view/{listId}/editItem/{itemId}(listId=${list.id}, itemId=${item.id})}"
+                              th:object="${item}"
+                              method="post">
+
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Nazwa pozycji</label>
+                                <input type="text"
+                                       th:field="*{name}"
+                                       class="form-control form-control-lg"
+                                       required>
+                            </div>
+
+                            <div class="d-flex gap-3">
+                                <button type="submit" class="btn btn-dog flex-grow-1">
+                                    <i class="fas fa-save"></i> Zapisz
+                                </button>
+                                <a th:href="@{/services/view/{id}(id=${list.id})}"
+                                   class="btn btn-outline-secondary flex-grow-1">
+                                    Anuluj
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/template :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/template :: head}"></head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container" th:replace="~{fragments/template :: navbar}"></div>
+</nav>
+
+<!-- ✅ tylko wrapper -->
+<main class="flex-grow-1">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <!-- Nagłówek listy -->
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="section-title mb-0" th:text="${list.title}">Tytuł listy</h4>
+                            <small class="text-muted" th:text="'Utworzona przez: ' + ${list.user.name}">Użytkownik</small>
+                        </div>
+                        <a th:href="@{/services/edit/{id}(id=${list.id})}" class="btn btn-outline-secondary">
+                            <i class="fas fa-edit"></i> Edytuj listę
+                        </a>
+                    </div>
+
+                    <!-- Ciało listy -->
+                    <div class="card-body">
+                        <form th:action="@{/services/view/{id}/addItem(id=${list.id})}" th:object="${newItem}" method="post" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" th:field="*{name}" class="form-control" placeholder="Dodaj nową pozycję" required>
+                                <button class="btn btn-dog" type="submit"><i class="fas fa-plus"></i> Dodaj</button>
+                            </div>
+                        </form>
+
+                        <div th:if="${#lists.isEmpty(list.items)}">
+                            <p class="text-muted">Brak pozycji w tej liście.</p>
+                        </div>
+
+                        <div th:if="${!#lists.isEmpty(list.items)}">
+                            <ul class="list-group">
+                                <li th:each="item : ${list.items}" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <!-- ✅ poprawka -->
+                                        <span th:text="${item.name}"
+                                              th:classappend="${item.completed} ? 'text-decoration-line-through text-muted' : ''">
+                                        Nazwa pozycji
+                                    </span>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <a th:href="@{/services/view/{listId}/editItem/{itemId}(listId=${list.id}, itemId=${item.id})}"
+                                           class="btn btn-outline-secondary btn-sm">
+                                            <i class="fas fa-edit"></i> Edytuj
+                                        </a>
+                                        <a th:href="@{/services/view/{listId}/deleteItem/{itemId}(listId=${list.id}, itemId=${item.id})}"
+                                           class="btn btn-outline-danger btn-sm"
+                                           onclick="return confirm('Na pewno chcesz usunąć tę pozycję?');">
+                                            <i class="fas fa-trash"></i> Usuń
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        <small th:text="'Łączna liczba pozycji: ' + ${#lists.size(list.items)}"></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- ✅ footer w body -->
+<footer th:replace="~{fragments/template :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
